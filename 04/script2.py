@@ -1,5 +1,5 @@
-with open("input", "r") as file:
-	lines = [[list(filter(None, set.split(' '))) for set in line.split(":")[1].split("|")] for line in file.read().split('\n')]
+with open("smolinput", "r") as file:
+	lines = [[set.split() for set in line.split(":")[1].split("|")] for line in file.read().split('\n')]
 
 copies = [1] * len(lines)
 
