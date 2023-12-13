@@ -33,7 +33,9 @@ def fix(pattern):
 			for n in after_vert:
 				if not n in before_vert:
 					return n
-	return pattern
+	return 0
+
+
 summarized = 0
 
 for pattern in patterns:
