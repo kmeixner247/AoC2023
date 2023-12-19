@@ -75,11 +75,9 @@ for path in finalpaths:
 			[attribute, value] = condition.split("<")
 			if int(value) - 1 < finalranges[attribute][1]:
 				finalranges[attribute][1] = int(value) - 1
-	print(path, finalranges)
 	localcombos = 1
 	for i in finalranges.values():
 		localcombos *= (i[1] - i[0] + 1)
-	print(localcombos)
 	combos += localcombos
 
 print(combos)
