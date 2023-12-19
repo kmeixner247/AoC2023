@@ -1,5 +1,3 @@
-import re
-
 def reverse_condition(condition):
 	if ">" in condition[0]:
 		[symbol, value] = condition[0].split(">")
@@ -9,21 +7,6 @@ def reverse_condition(condition):
 		[symbol, value] = condition[0].split("<")
 		value = str(int(value) - 1)
 		return ">".join([symbol, value])
-	print("this should never print")
-
-def check_part_for_condition(part, conditions):
-	for condition in conditions:
-		if len(condition) == 1:
-			return condition[0]
-		elif ">" in condition[0]:
-			[attribute, value] = condition[0].split(">")
-			if part[attribute] > int(value):
-				return condition[1]
-		elif "<" in condition[0]:
-			[attribute, value] = condition[0].split("<")
-			if part[attribute] < int(value):
-				return condition[1]
-	print("this should never print")
 
 def traverse_instructions(cases, path):
 	global instructions
@@ -33,7 +16,6 @@ def traverse_instructions(cases, path):
 			if case[1] == "R" or case[1] == "A":
 				if case[1] == "A":
 					finalpaths.append(path + case)
-				# return
 			else:
 				traverse_instructions(instructions[case[1]], path + [case[0]])
 			path.append(reverse_condition(case))
@@ -44,10 +26,7 @@ def traverse_instructions(cases, path):
 				return
 			traverse_instructions(instructions[case[0]], path)
 
-
-
-[instructions_raw, parts_raw] = [part.split('\n') for part in open("input", "r").read().split("\n\n")]
-
+instructions_raw = open("input", "r").read().split("\n\n")[0].split('\n')
 
 instructions = {}
 for line in instructions_raw:
@@ -55,8 +34,6 @@ for line in instructions_raw:
 	remainder = remainder[:-1]
 	cases = [case.split(":") for case in remainder.split(',')]
 	instructions.update({name: cases})
-
-parts = [{"x" : numbers[0],"m": numbers[1], "a": numbers[2], "s": numbers[3]}for numbers in [[int(n) for n in re.findall(r"\d+", object_raw)] for object_raw in parts_raw]]
 
 finalpaths = []
 
