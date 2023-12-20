@@ -1,3 +1,10 @@
+# This one involved some manual work. 
+# I figured out that rx has exactly one conjunction module as input,
+# which again has 4 conjunction modules as input.
+# so I assumed that all 4 of those restart their entire cycle once they output high
+# which means that the first time they all output high is their LCM
+# which in this case is simple their multiple
+
 class Module:
 	def __init__(self, lst):
 		self.outputs = list()
@@ -22,16 +29,16 @@ class ConjunctionModule(Module):
 		self.inputs = dict()
 		super().__init__(lst)
 
-def push_button():
-	global signals_sent
+def push_button(partial_results):
+	global pushes
 	global modules
+	pushes += 1
 	queue = [("broadcaster", False, "button")]
 	while len(queue) > 0:
 		signal = queue.pop(0)
-		if signal[1] == True:
-			signals_sent[1] += 1
-		else:
-			signals_sent[0] += 1
+		if signal[1] == True and signal[2] in partial_results and partial_results[signal[2]] == 0:
+			partial_results[signal[2]] = pushes
+			print(f"found {signal[2]}")
 		targets = []
 		if signal[0] in modules:
 			module = modules[signal[0]]
@@ -71,10 +78,15 @@ for module in modules.items():
 			if type(modules[item]) is ConjunctionModule:
 				modules[item].inputs.update({module[0] : False})
 
-signals_sent = [0, 0]
+partial_results = {"ft" : 0, "jz": 0, "sv": 0, "ng": 0}
 
-for i in range(1000):
-	push_button()
-	
-print(signals_sent)
-print(signals_sent[0] * signals_sent[1])
+pushes = 0
+
+while (any(pair[1] == 0 for pair in partial_results.items())):
+	push_button(partial_results)
+
+result = 1
+for item in partial_results.items():
+	result *= item[1]
+
+print(result)
