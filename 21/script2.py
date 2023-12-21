@@ -6,6 +6,9 @@
 # so I calculate the simplest case (5x5 tiles) that has all the result types and then interpolated that
 # I was actually a bit surprised when it worked
 
+# btw this probably only works because the input is nicely formatted with an empty path to the edges and clear edges for 
+# all the possible tiles mentioned above. The example doesn't have that which is why it doesn't give the right results
+
 import copy
 def find_start(my_map):
 	for y in range(len(my_map)):
@@ -69,9 +72,9 @@ def gardens_reached(steps, smallresult, maplen):
 	return(result)
 
 
-my_map = [[c for c in line] for line in open("input", "r").read().split('\n')]
+my_map = [[c for c in line] for line in open("smolinput", "r").read().split('\n')]
 maplen = len(my_map)
-maxsteps = 26501365
+maxsteps = 5000
 rest = maxsteps % maplen
 small_maxsteps = 2 * maplen + rest
 
